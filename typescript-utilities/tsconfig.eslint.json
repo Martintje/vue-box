@@ -1,0 +1,30 @@
+/*
+ * @source https://github.com/slackapi/bolt-js/blob/main/tsconfig.eslint.json
+ * @source https://eslint.org/docs/latest/use/getting-started#quick-start
+ * @source https://typescript-eslint.io/troubleshooting/typed-linting/monorepos/
+ */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+  },
+  "include": [
+    "library.ts",
+
+    "./cypress.config.ts",
+    "./eslint.config.ts",
+    "./vite.config.ts",
+    "./vitest.config.ts",
+
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "cypress/**/*",
+    "cypress/**/*.vue",
+    "scripts/**/*.mjs"
+  ],
+  "exclude": [
+    "./vite.config.ts.timestamp-**.mjs"
+  ]
+}

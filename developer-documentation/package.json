@@ -1,0 +1,25 @@
+{
+  "name": "@vue-box/developer-documentation",
+  "version": "0.0.1",
+  "description": "A VuePress project",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",
+    "dev:open": "vuepress dev docs --port 8082 --open",
+    "docs:build": "vuepress build docs",
+    "docs:clean-dev": "vuepress dev docs --clean-cache",
+    "docs:dev": "vuepress dev docs",
+    "docs:update-package": "pnpm dlx vp-update",
+    "install:offline": "pnpm install --offline",
+    "package:sort": "npx sort-package-json",
+    "package:update": "npx npm-check-updates && ncu --interactive"
+  },
+  "devDependencies": {
+    "@vuepress/bundler-vite": "2.0.0-rc.19",
+    "@vuepress/theme-default": "2.0.0-rc.76",
+    "sass-embedded": "^1.83.4",
+    "vue": "^3.5.13",
+    "vuepress": "2.0.0-rc.19"
+  }
+}
