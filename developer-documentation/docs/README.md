@@ -14,17 +14,17 @@ title: Developer documentation
 **Setup**
 - run `cd vue-box`
 - run `create-vite`
-- type `project-name` -> `design-system`
-- select `Vue`
-- select `Customize with create-vue`
-- select `Add TypeScript?`
-- select `Add JSX Support?`
-- select `Add Vue Router for Single Page Application development?`
-- select `Add Pinia for state management?`
-- select `Add Vitest for Unit Testing?`
-- select `Add an End-to-End Testing Solution?` -> `Cypress`
-- select `Add ESLint for code quality?` -> `Yes, and speed up with Oxlint (experimental)`
-- select `Add Prettier for code formatting?`
+- type `project-name` → `design-system`
+- select `Vue` → `Yes`
+- select `Customize with create-vue` → `Yes`
+- select `Add TypeScript?` → `Yes`
+- select `Add JSX Support?` → `Yes`
+- select `Add Vue Router for Single Page Application development?` → `Yes`
+- select `Add Pinia for state management?` → `Yes`
+- select `Add Vitest for Unit Testing?` → `Yes`
+- select `Add an End-to-End Testing Solution?` → `Cypress`
+- select `Add ESLint for code quality?` → `Yes, and speed up with Oxlint (experimental)`
+- select `Add Prettier for code formatting?` → `Yes`
 
 **Test**
 - run `cd design-system`
@@ -36,7 +36,7 @@ title: Developer documentation
 :::details Cleanup script
 
 **Setup**
-- add `design-system/package.json` -> `scripts` -> `"clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",`
+- add `design-system/package.json` → `scripts` → `"clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",`
 
 **Test**
 - run `pnpm clean && pnpm i pnpm dev:open`
@@ -45,7 +45,7 @@ title: Developer documentation
 :::details Auto open browser
 
 **Setup**
-- add `design-system/package.json` -> `scripts` -> `"dev:open": "vite --open --port 8080",`
+- add `design-system/package.json` → `scripts` → `"dev:open": "vite --open --port 8080",`
 
 **Test**
 - run `pnpm dev:open`
@@ -54,7 +54,7 @@ title: Developer documentation
 :::details Allow offline install
 
 **Setup**
-- add `design-system/package.json` -> `scripts` -> `"install:offline": "pnpm install --offline",`
+- add `design-system/package.json` → `scripts` → `"install:offline": "pnpm install --offline",`
 
 **Test**
 - run `pnpm install:offline`
@@ -63,18 +63,18 @@ title: Developer documentation
 :::details Allow mass-update
 
 **Setup**
-- add `design-system/package.json` -> `scripts` -> `"package:update": "npx npm-check-updates && ncu --interactive",`
+- add `design-system/package.json` → `scripts` → `"package:update": "npx npm-check-updates && ncu --interactive",`
 
 **Test**
-- run `pnpm package:update` -> press `enter` -> press `y`
+- run `pnpm package:update` → press `enter` → press `y`
 :::
 
 :::details Standardise order in package.json
 
 **Setup**
 - run `pnpm add -D sort-package-json`
-- add `design-system/package.json` -> `scripts` -> `"package:sort": "npx sort-package-json",`
-- 
+- add `design-system/package.json` → `scripts` → `"package:sort": "npx sort-package-json",`
+
 **Test**
 - run `pnpm package:sort`
 :::
@@ -84,13 +84,13 @@ title: Developer documentation
 **Setup**
 - run `pnpm add -D tailwindcss@next @tailwindcss/vite@next`
 - run `pnpm package:update`
-- add `design-system/vite.config.ts` -> `import tailwindcss from '@tailwindcss/vite';`
-- add `design-system/vite.config.ts` -> `plugins` -> `tailwindcss()`
-- add `design-system/src/base.css` -> `@import "tailwindcss";`
+- add `design-system/vite.config.ts` → `import tailwindcss from '@tailwindcss/vite';`
+- add `design-system/vite.config.ts` → `plugins` → `tailwindcss()`
+- add `design-system/src/base.css` → `@import "tailwindcss";`
 
 **Test**
-- add `design-system/src/views/HomeView.vue` ->
-```html
+- add `design-system/src/views/HomeView.vue` →
+```vue
 <div class="grid grid-cols-15d">
   <div v-for="item in 16">{{ item }}</div>
 </div>
@@ -102,8 +102,8 @@ title: Developer documentation
 
 **Setup**
 - run `pnpm add -D @tailwindcss/postcss`
-- add `design-system/vite.config.ts` -> `import tailwindpostcss from '@tailwindcss/postcss';`
-- add `design-system/vite.config.ts` ->
+- add `design-system/vite.config.ts` → `import tailwindpostcss from '@tailwindcss/postcss';`
+- add `design-system/vite.config.ts` →
 ```ts
 css: {
   postcss: {
@@ -115,12 +115,12 @@ css: {
 ```
 
 **Test**
-- add `design-system/src/views/HomeView.vue` ->
-```html
+- add `design-system/src/views/HomeView.vue` →
+```vue
 <div class="home-view__grid">
   <div v-for="item in 16">{{ item }}</div>
 </div>
-<!-- ... -->
+<!-- ... -→
 <style lang="scss" scoped>
 .home-view__grid {
   @apply grid;
@@ -131,15 +131,15 @@ css: {
 - run `pnpm dev:open`
 
 **Test 2**
-- add `design-system/src/views/HomeView.vue` ->
-```html
+- add `design-system/src/views/HomeView.vue` →
+```vue
 <div class="home-view__grid">
   <div v-for="item in 16">{{ item }}</div>
 </div>
-<!-- ... -->
+<!-- ... -→
 <style lang="scss" src="./HomeView.scss" scoped></style>
 ```
-- add `design-system/src/views/HomeView.scss` ->
+- add `design-system/src/views/HomeView.scss` →
 ```scss
 .home-view__grid {
   @apply grid;
@@ -153,14 +153,14 @@ css: {
 
 **Setup**
 - run `pnpm add -D @tanstack/eslint-plugin-query eslint-plugin-regexp eslint-plugin-security eslint-plugin-simple-import-sort eslint-plugin-unicorn eslint-plugin-vuejs-accessibility globals @types/eslint-plugin-security eslint-plugin-prettier eslint-config-prettier @eslint/js @types/eslint__js typescript-eslint`
-- add `design-system/vite.config.ts` -> `plugins` -> `eslint({ fix: true }),`
-- add `design-system/.gitignore` -> 
+- add `design-system/vite.config.ts` → `plugins` → `eslint({ fix: true }),`
+- add `design-system/.gitignore` → 
 ```yaml
 !.vscode/settings.json
 *.eslintcache
 ```
-- replace `design-system/.prettierrc.json` ->
-```jsonc
+- replace `design-system/.prettierrc.json` →
+```json
 {
   "$schema": "https://json.schemastore.org/prettierrc",
   "semi": false,
@@ -173,8 +173,8 @@ css: {
   "trailingComma": "all"
 }
 ```
-- add `design-system/.vscode/extensions.json` ->
-```jsonc
+- add `design-system/.vscode/extensions.json` →
+```json
 {
   "recommendations": [
     // Customisation
@@ -192,8 +192,8 @@ css: {
   ]
 }
 ```
-- replace `design-system/.vscode/settings.json` ->
-```jsonc
+- replace `design-system/.vscode/settings.json` →
+```json
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[html]": {
@@ -234,7 +234,7 @@ css: {
   "css.lint.unknownAtRules": "ignore",
 }
 ```
-- add `design-system/eslint.config.ts` ->
+- add `design-system/eslint.config.ts` →
 ```ts
 import pluginJs from '@eslint/js'
 import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
@@ -337,11 +337,11 @@ pluginPrettierRecommended,
 :::details Purge unused
 
 **Setup**
-- run `printf "@import 'tailwindcss';" > src/assets/base.css`
-- run `printf "@import './base.css';" > src/assets/main.css`
+- run `printf "@import 'tailwindcss';" → src/assets/base.css`
+- run `printf "@import './base.css';" → src/assets/main.css`
 - run `rm -rf src/assets/logo.svg src/components src/stores src/views/AboutView.vue`
-- replace `design-system/src/App.vue` ->
-```html
+- replace `design-system/src/App.vue` →
+```vue
 <script lang="ts" setup>
 import { RouterView } from 'vue-router'
 </script>
@@ -352,19 +352,19 @@ import { RouterView } from 'vue-router'
 
 <style lang="scss" scoped></style>
 ```
-- add `design-system/constants/routeNamesConstant.ts` ->
+- add `design-system/constants/routeNamesConstant.ts` →
 ```ts
 export const routeNamesConstant = [
   'home'
 ] as const;
 ```
-- add `design-system/types/RouteNameType.ts` ->
+- add `design-system/types/RouteNameType.ts` →
 ```ts
 import type { routeNamesConstant } from "@/constants/routeNamesConstant";
 
 export type RouteNameType = typeof routeNamesConstant[number];
 ```
-- add `design-system/types/RouteNameType.ts` ->
+- add `design-system/types/RouteNameType.ts` →
 ```ts
 import type { RouteRecordRaw } from "vue-router";
 import type { RouteNameType } from "./RouteNameType";
@@ -373,7 +373,7 @@ export type RouteType = RouteRecordRaw & {
   name: RouteNameType
 }
 ```
-- replace `design-system/src/router/index.ts` ->
+- replace `design-system/src/router/index.ts` →
 ```ts
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -392,8 +392,8 @@ const router = createRouter({
 
 export default router
 ```
-- replace `design-system/src/views/HomeView.vue` ->
-```html
+- replace `design-system/src/views/HomeView.vue` →
+```vue
 <script lang="ts" setup></script>
 
 <template>
@@ -412,23 +412,23 @@ export default router
 :::details Duplicate folder for typescript-utilities
 
 **Setup**
-- replace `design-system/index.html` -> `head` -> `<title>Design System</title>`
-- replace `design-system/package.json` -> `name` -> `@vue-box/design-system`
-- remove `design-system/package.json` -> `"private": true,`
-- add `design-system/library.ts` ->
+- replace `design-system/index.html` → `head` → `<title>Design System</title>`
+- replace `design-system/package.json` → `name` → `@vue-box/design-system`
+- remove `design-system/package.json` → `"private": true,`
+- add `design-system/library.ts` →
 ```ts
 export * from './src/constants/routeNamesConstant'
 export type * from './src/types/RouteNameType'
 export type * from './src/types/RouteType'
 ```
-- add `design-system/package.json` -> `"main": "library.ts",`
-- add `design-system/tsconfig.eslint.json` -> `include` -> `"library.ts",`
+- add `design-system/package.json` → `"main": "library.ts",`
+- add `design-system/tsconfig.eslint.json` → `include` → `"library.ts",`
 - run `rm -rf pnpm-lock.yaml node_modules/ && cd .. && cp -r ./design-system ./typescript-utilities`
-- replace `typescript-utilities/index.html` -> `head` -> `<title>Typescript Utilities</title>`
-- replace `typescript-utilities/package.json` -> `name` -> `@vue-box/typescript-utilities`
-- replace `typescript-utilities/readme.md` -> `typescript-utilities`
-- replace `typescript-utilities/src/views/HomeView.vue` ->
-```html
+- replace `typescript-utilities/index.html` → `head` → `<title>Typescript Utilities</title>`
+- replace `typescript-utilities/package.json` → `name` → `@vue-box/typescript-utilities`
+- replace `typescript-utilities/readme.md` → `typescript-utilities`
+- replace `typescript-utilities/src/views/HomeView.vue` →
+```vue
 <script lang="ts" setup></script>
 
 <template>
@@ -437,7 +437,7 @@ export type * from './src/types/RouteType'
   </main>
 </template>
 ```
-- replace `typescript-utilities/package.json` -> `scripts` -> `"dev:open": "vite --open --port 8081",`
+- replace `typescript-utilities/package.json` → `scripts` → `"dev:open": "vite --open --port 8081",`
 
 **Test**
 - run `cd typescript-utilities && pnpm i && pnpm dev:open`
@@ -449,20 +449,20 @@ export type * from './src/types/RouteType'
 
 **Setup**
 - run `cd ..`
-- add `pnpm-workspace.yaml` ->
+- add `pnpm-workspace.yaml` →
 ```yaml
 packages:
   - 'typescript-utilities'
   - 'design-system'
 ```
-- add `.gitignore` ->
+- add `.gitignore` →
 ```yaml
 .DS_Store
 node_modules
 dist
 ```
-- add `package.json` ->
-```jsonc
+- add `package.json` →
+```json
 {
   "name": "vue-box",
   "version": "0.0.0",
@@ -486,12 +486,12 @@ dist
   }
 }
 ```
-- add `design-system/package.json` -> `"@vue-box/typescript-utilities": "workspace:*",`
+- add `design-system/package.json` → `"@vue-box/typescript-utilities": "workspace:*",`
 
 **Test**
 - `pnpm clean && pnpm i && pnpm dev:open`
-- replace `design-system/src/views/HomeView.vue` ->
-```html
+- replace `design-system/src/views/HomeView.vue` →
+```vue
 <script setup lang="ts">
 import { routeNamesConstant } from '@vue-box/typescript-utilities'
 </script>
@@ -512,44 +512,95 @@ import { routeNamesConstant } from '@vue-box/typescript-utilities'
 
 **Setup**
 - run `pnpm create vuepress vuepress-starter`
-- Select `Select a language to display` -> `english (US)`
-- Select `Choose package manager` -> `pnpm`
-- Select `Which bundler do you want to use?` -> `vite`
-- Select `What type of project do you want to create?` -> `docs`
-- Select `Your project name` -> `developer-documentation`
-- Select `Your project version` -> `0.0.1`
-- Select `Your project description` -> `A VuePress project`
-- Select `Your project license` -> `MIT`
-- Select `Do you need a GitHub workflow to deploy docs on GitHub pages?` -> `Yes`
-- Select `Would you like to preview template now?` -> `No`
-- add `pnpm-workspace.yaml` ->
+- Select `Select a language to display` → `english (US)`
+- Select `Choose package manager` → `pnpm`
+- Select `Which bundler do you want to use?` → `vite`
+- Select `What type of project do you want to create?` → `docs`
+- Select `Your project name` → `developer-documentation`
+- Select `Your project version` → `0.0.1`
+- Select `Your project description` → `A VuePress project`
+- Select `Your project license` → `MIT`
+- Select `Do you need a GitHub workflow to deploy docs on GitHub pages?` → `Yes`
+- Select `Would you like to preview template now?` → `No`
+- add `pnpm-workspace.yaml` →
 ```yaml
 packages:
   - 'typescript-utilities'
   - 'developer-documentation'
 ```
 - replace folder name `vuepress-starter` with `developer-documentation`
-- replace `developer-documentation/package.json` -> `"name": "@vue-box/developer-documentation",`
-- add `developer-documentation/package.json` -> `devDependencies`
-```jsonc
+- replace `developer-documentation/package.json` → `"name": "@vue-box/developer-documentation",`
+- add `developer-documentation/package.json` → `devDependencies`
+```json
 "clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",
 "dev:open": "vuepress dev docs --port 8082 --open",
 "install:offline": "pnpm install --offline",
 "package:sort": "npx sort-package-json",
 "package:update": "npx npm-check-updates && ncu --interactive",
 ```
-- add `developer-documentation/.gitignore` -> `docs/.vuepress/.cache`
-- add `developer-documentation/.gitignore` -> `docs/.vuepress/.temp`
-- replace `package.json` -> `scripts` -> `"package:update": "npx npm-check-updates && ncu --interactive && (cd typescript-utilities && pnpm run package:update) && (cd design-system && pnpm run package:update) && (cd developer-documentation && pnpm run package:update)"`
+- add `developer-documentation/.gitignore` → `docs/.vuepress/.cache`
+- add `developer-documentation/.gitignore` → `docs/.vuepress/.temp`
+- replace `package.json` → `scripts` → `"package:update": "npx npm-check-updates && ncu --interactive && (cd typescript-utilities && pnpm run package:update) && (cd design-system && pnpm run package:update) && (cd developer-documentation && pnpm run package:update)"`
 - run `pnpm clean`
 - run `pnpm i`
 - run `pnpm package:sort`
-- run `pnpm package:update` -> repeat 
-  - Select `Choose which packages to update` -> `Enter` 
-  - Select `Run pnpm install to install new versions?` -> `N`
-- (cd developer-documentation && pnpm add -D @vuepress/bundler-vite@next @vuepress/theme-default@next vuepress@next sass-embedded)
-- add `package.json` -> `devDependencies` -> `^` where missing
+- run `pnpm package:update` → repeat 
+  - Select `Choose which packages to update` → `Enter` 
+  - Select `Run pnpm install to install new versions?` → `N`
+- run `(cd developer-documentation && pnpm add -D @vuepress/bundler-vite@next @vuepress/theme-default@next vuepress@next sass-embedded)`
+- add `developer-documentation/package.json` → `devDependencies` → `^` where missing
 - run `pnpm clean`
 - run `pnpm i`
 - run `pnpm dev:open`
+:::
+
+### Repo - Storybookcase
+
+:::details Adding storybook
+- run `pnpm clean && cp -r ./design-system ./storybookcase`
+- replace `storybookcase/readme.md` → `storybookcase`
+- replace `storybookcase/package.json` → `name` → `@vue-box/storybookcase`
+- add `storybookcase/package.json` → `devDependencies` → `"@vue-box/design-system": "workspace:*",`
+- replace `storybookcase/package.json → scripts
+```json
+{
+  "clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",
+  "type-check": "vue-tsc --build",
+  "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
+  "lint:eslint": "eslint . --fix",
+  "lint": "run-s lint:*",
+  "format": "prettier --write src/",
+  "install:offline": "pnpm install --offline",
+  "package:sort": "npx sort-package-json",
+  "package:update": "npx npm-check-updates && ncu --interactive"
+},
+```
+- replace `package.json` → `"package:update": "npx npm-check-updates && ncu --interactive && (cd typescript-utilities && pnpm run package:update) && (cd design-system && pnpm run package:update) && (cd developer-documentation && pnpm run package:update) && (cd storybookcase && pnpm run package:update)"`
+- add `pnpm-workspaces.yaml` →  `- "storybookcase"`
+- run `pnpm dlx storybook@latest init`
+- replace `"storybook": "storybook dev -p 6006",` with `"dev:open": "storybook dev -p 8083",`
+:::
+
+:::details Storybook - Installation error: `Could not resolve "@storybook/addon-actions/manager"`
+- Ran into the error `✘ [ERROR] Could not resolve "@storybook/addon-actions/manager"`
+- Solved it by running `find ~ -name ".pnp.*"` and then renaming, that file
+- Solution found in https://stackoverflow.com/questions/78699720/error-could-not-resolve-various-storybook-dependencies-with-storybook-8-and-pnp
+:::
+
+:::details Storybook - Run error: `Failed to resolve "\u0000/virtual:/@storybook/builder-vite/storybook-stories.js"`
+- Ran into the error `[vite] (client) warning: Failed to resolve "\u0000/virtual:/@storybook/builder-vite/storybook-stories.js" from /virtual:/@storybook/builder-vite/vite-app.js. An id should be written. Did you pass a URL?`
+- Solved it by escaping the following from `storybookcase/vite.config.ts`
+```ts
+// import eslint from 'vite-plugin-eslint2'
+// eslint({
+//   fix: true,
+// }),
+```
+- Real issue is also being worked on by Storybook https://github.com/storybookjs/storybook/issues/30497
+:::
+
+:::details Cleaning
+- Reordered all examples in `storybookcase/src/stories` with `<script /><template /><style />`
+- For each example in `storybookcase/src/stories` moved the external css into a `<style lang="scss" scoped></style>` block
+- Prefixed all examples in `storybookcase/src/stories` with `Some` so they are multi-word-components
 :::

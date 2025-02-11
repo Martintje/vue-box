@@ -1,4 +1,5 @@
 packages:
-  - 'typescript-utilities'
-  - 'design-system'
-  - 'developer-documentation'
+  - "typescript-utilities"
+  - "design-system"
+  - "developer-documentation"
+  - "storybookcase"
