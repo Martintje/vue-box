@@ -582,25 +582,26 @@ packages:
 :::
 
 :::details Storybook - Installation error: `Could not resolve "@storybook/addon-actions/manager"`
-- Ran into the error `✘ [ERROR] Could not resolve "@storybook/addon-actions/manager"`
-- Solved it by running `find ~ -name ".pnp.*"` and then renaming, that file
-- Solution found in https://stackoverflow.com/questions/78699720/error-could-not-resolve-various-storybook-dependencies-with-storybook-8-and-pnp
+- When running into the error `✘ [ERROR] Could not resolve "@storybook/addon-actions/manager"`
+- This can be solved by running `find ~ -name ".pnp.*"` and then renaming that file
+- Credits for solution https://stackoverflow.com/questions/78699720/error-could-not-resolve-various-storybook-dependencies-with-storybook-8-and-pnp
 :::
 
 :::details Storybook - Run error: `Failed to resolve "\u0000/virtual:/@storybook/builder-vite/storybook-stories.js"`
-- Ran into the error `[vite] (client) warning: Failed to resolve "\u0000/virtual:/@storybook/builder-vite/storybook-stories.js" from /virtual:/@storybook/builder-vite/vite-app.js. An id should be written. Did you pass a URL?`
-- Solved it by escaping the following from `storybookcase/vite.config.ts`
+- When running into the error `[vite] (client) warning: Failed to resolve "\u0000/virtual:/@storybook/builder-vite/storybook-stories.js" from /virtual:/@storybook/builder-vite/vite-app.js. An id should be written. Did you pass a URL?`
+- This can be solved by removing the following code from `storybookcase/vite.config.ts`
 ```ts
-// import eslint from 'vite-plugin-eslint2'
-// eslint({
-//   fix: true,
-// }),
+import eslint from 'vite-plugin-eslint2'
+eslint({
+  fix: true,
+}),
 ```
-- Real issue is also being worked on by Storybook https://github.com/storybookjs/storybook/issues/30497
+- While writing this Storybook is working on the issue https://github.com/storybookjs/storybook/issues/30497
 :::
 
 :::details Cleaning
-- Reordered all examples in `storybookcase/src/stories` with `<script /><template /><style />`
-- For each example in `storybookcase/src/stories` moved the external css into a `<style lang="scss" scoped></style>` block
-- Prefixed all examples in `storybookcase/src/stories` with `Some` so they are multi-word-components
+- Reorder all examples in `storybookcase/src/stories` to `<script /><template /><style />`
+- For each example in `storybookcase/src/stories` move the external css into a `<style lang="scss" scoped></style>` block
+- Prefix all examples in `storybookcase/src/stories` with `Some` so they are multi-word-components
+- Replace in all examples in `storybookcase/src/stories` usages like `some-button` to `SomeButton`
 :::
