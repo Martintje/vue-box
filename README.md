@@ -14,7 +14,8 @@ To run the all repo's at once, from the project root folder run `pnpm dev:open`
 
 To run each repo individually, from each project folder run `pnpm dev:open`
 
-Quick reference:
+### Reference
+
 - http://localhost:8080 → Design system
 - http://localhost:8081 → Typescript utilities
 - http://localhost:8082 → Developer documentation (vuepress)
