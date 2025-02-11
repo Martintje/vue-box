@@ -601,7 +601,7 @@ eslint({
 
 :::details Cleaning
 - Reorder all examples in `storybookcase/src/stories` to `<script /><template /><style />`
-- For each example in `storybookcase/src/stories` move the external css into a `<style lang="scss" scoped></style>` block
+- For each example in `storybookcase/src/stories` move the external css into the .vue file in a `<style lang="scss" scoped></style>` block
 - Prefix all examples in `storybookcase/src/stories` with `Some` so they are multi-word-components
 - Replace in all examples in `storybookcase/src/stories` usages like `some-button` to `SomeButton`
 :::
