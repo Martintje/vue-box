@@ -1081,3 +1081,23 @@ const { items } = useHtmlRendererItems({ dataSet })
 }
 </style>
 ```
+:::
+
+:::details `index.ts`
+```ts
+export { default as HtmlDivision } from './src/components/HtmlDivision.vue'
+export * from './src/components/HtmlDivision.vue'
+export { default as HtmlRenderer } from './src/components/HtmlRenderer.vue'
+export * from './src/components/HtmlRenderer.vue'
+export * from './src/composables/useContentable'
+export * from './src/composables/useHtmlRendererData'
+export * from './src/composables/useHtmlRendererItems'
+export * from './src/constants/htmlComponentNamesConstant'
+export * from './src/constants/htmlRendererDataTypesConstant'
+export type * from './src/types/ContentableType'
+export type * from './src/types/HtmlComponentNameType'
+export type * from './src/types/HtmlRendererDataSetType'
+export type * from './src/types/HtmlRendererDataTypeType'
+export type * from './src/types/HtmlRendererProperties'
+```
+:::

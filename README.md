@@ -2,17 +2,31 @@
 
 ## Prerequisites
 
-[pnpm](https://pnpm.io/installation), to install pnpm globally with `npm` run `npm install -g pnpm`
+[pnpm](https://pnpm.io/installation), to install pnpm globally with `npm` run 
+
+```bash
+npm install -g pnpm
+```
 
 ## Installing
 
-To install the project, from the project root folder run `pnpm i`
+From the root folder run
 
-## Running
+```bash
+pnpm i
+```
 
-To run the all repo's at once, from the project root folder run `pnpm dev:open`
+## Starting
 
-To run each repo individually, from each project folder run `pnpm dev:open`
+To run all, from the root folder run
+```bash
+pnpm dev:open
+```
+
+To run an individual repository, navigate into it's folder and run
+```bash
+pnpm dev:open
+```
 
 ### Reference
 
