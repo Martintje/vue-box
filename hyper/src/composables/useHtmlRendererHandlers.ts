@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 
-import type { HtmlRendererDataSetType, HtmlRendererDataType, HtmlRendererNumberData, HtmlRendererTextData } from '../types/HtmlRendererDataSet'
+import type { HtmlRendererDataSetType, HtmlRendererDataType, HtmlRendererNumberData, HtmlRendererTextData } from '../types/HtmlRendererDataSetType'
 import type { HtmlRendererDataTypeType } from '../types/HtmlRendererDataTypeType'
 import type { HtmlRendererHtmlInputNumberUpdateModelValueEvent, HtmlRendererHtmlInputTextUpdateModelValueEvent } from '../types/HtmlRendererEvents'
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { getHtmlSanitized } from '../utilities/getHtmlSanitized'
-import { getObjectEntries } from '../utilities/getObjectEntries'
-import { getObjectFromEntries } from '../utilities/getObjectFromEntries'
-import { getObjectKeys } from '../utilities/getObjectKeys'
-import { getObjectValues } from '../utilities/getObjectValues'
+// import { getObjectEntries } from '../utilities/getObjectEntries'
+// import { getObjectFromEntries } from '../utilities/getObjectFromEntries'
+// import { getObjectKeys } from '../utilities/getObjectKeys'
+// import { getObjectValues } from '../utilities/getObjectValues'
 
 const getHtmlSanitizedData = `<a href='#' target='_blank'>Link</a><${'script'}></${'script'}>`
-const getObjectKeysData = { foo: 'bar', 1: true } as const
+// const getObjectKeysData = { foo: 'bar', 1: true } as const
 </script>
 
 <template>
@@ -29,7 +29,7 @@ const getObjectKeysData = { foo: 'bar', 1: true } as const
         </details>
       </article>
 
-      <article class="home-view__article">
+      <!-- <article class="home-view__article">
         <details>
           <summary>getObjectKeys</summary>
           <dl>
@@ -95,7 +95,7 @@ const getObjectKeysData = { foo: 'bar', 1: true } as const
             </dd>
           </dl>
         </details>
-      </article>
+      </article> -->
     </section>
   </main>
 </template>

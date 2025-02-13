@@ -403,15 +403,12 @@ export default router
 </template>
 ```
 
+
 **Test**
 - run `pnpm dev:open`
 :::
 
-### Repo - Typescript utilities
-
-:::details Duplicate folder for typescript-utilities
-
-**Setup**
+:::details Tweak repo settings
 - replace `design-system/index.html` → `head` → `<title>Design System</title>`
 - replace `design-system/package.json` → `name` → `@vue-box/design-system`
 - remove `design-system/package.json` → `"private": true,`
@@ -423,6 +420,30 @@ export type * from './src/types/RouteType'
 ```
 - add `design-system/package.json` → `"main": "index.ts",`
 - add `design-system/tsconfig.eslint.json` → `include` → `"index.ts",`
+:::
+
+:::details Comment out aliases
+- replace `design-system/tsconfig.app.json` →
+```json
+// "paths": {
+//   "@/*": ["./src/*"]
+// }
+```
+- replace `design-system/vite.config.ts` →
+```ts
+// resolve: {
+//   alias: {
+//     '@': fileURLToPath(new URL('./src', import.meta.url))
+//   }
+// },
+```
+:::
+
+### Repo - Typescript utilities
+
+:::details Duplicate folder for typescript-utilities
+
+**Setup**
 - run `rm -rf pnpm-lock.yaml node_modules/ && cd .. && cp -r ./design-system ./typescript-utilities`
 - replace `typescript-utilities/index.html` → `head` → `<title>Typescript Utilities</title>`
 - replace `typescript-utilities/package.json` → `name` → `@vue-box/typescript-utilities`
@@ -460,6 +481,9 @@ packages:
 .DS_Store
 node_modules
 dist
+developer-documentation/docs/.vuepress/.cache
+developer-documentation/docs/.vuepress/.temp
+developer-documentation/docs/.vuepress/config.js.**.mjs
 ```
 - add `package.json` →
 ```json
@@ -506,7 +530,7 @@ import { routeNamesConstant } from '@vue-box/typescript-utilities'
 ```
 :::
 
-### Repo - Developer documentation
+### Repo - Developer documentation (vuepress)
 
 :::details Adding Vuepress
 
@@ -554,7 +578,7 @@ packages:
 - run `pnpm dev:open`
 :::
 
-### Repo - Storybookcase
+### Repo - Storybookcase (storybook)
 
 :::details Adding storybook
 - run `pnpm clean && cp -r ./design-system ./storybookcase`
@@ -578,7 +602,9 @@ packages:
 - replace `package.json` → `"package:update": "npx npm-check-updates && ncu --interactive && (cd typescript-utilities && pnpm run package:update) && (cd design-system && pnpm run package:update) && (cd developer-documentation && pnpm run package:update) && (cd storybookcase && pnpm run package:update)"`
 - add `pnpm-workspaces.yaml` →  `- "storybookcase"`
 - run `pnpm dlx storybook@latest init`
-- replace `"storybook": "storybook dev -p 6006",` with `"dev:open": "storybook dev -p 8083",`
+- replace `storybookcase/package.json` → `"storybook": "storybook dev -p 6006",` with `"dev:open": "storybook dev -p 8083",`
+- remove `storybookcase/index.ts`
+- remove `storybookcase/package.json` → `"main": "index.ts",`
 :::
 
 :::details Storybook - Installation error: `Could not resolve "@storybook/addon-actions/manager"`
@@ -605,3 +631,453 @@ eslint({
 - Prefix all examples in `storybookcase/src/stories` with `Some` so they are multi-word-components
 - Replace in all examples in `storybookcase/src/stories` usages like `some-button` to `SomeButton`
 :::
+
+
+### Repo - Hyper (basic components)
+
+:::details Adding hyper
+- run `pnpm clean && cp -r ./design-system ./hyper`
+- replace `hyper/readme.md` → `hyper`
+- replace `hyper/package.json` → `name` → `@vue-box/hyper`
+- replace `hyper/package.json → scripts
+```json
+{
+  "dev:open": "vite --open --port 8084",
+},
+```
+- replace `package.json` → `"package:update": "npx npm-check-updates && ncu --interactive && (cd typescript-utilities && pnpm run package:update) && (cd hyper && pnpm run package:update) && (cd design-system && pnpm run package:update) && (cd developer-documentation && pnpm run package:update) && (cd storybookcase && pnpm run package:update)"`
+- add `pnpm-workspaces.yaml` →  `- "hyper"`
+:::
+
+## Creating HtmlDivision
+
+### Typescript utilities - getHtmlSanitized
+
+:::details `src/utilities/getHtmlSanitized.ts`
+````ts
+import dompurify from 'dompurify'
+
+/**
+ * @example
+```ts
+  const exampleText = '<a href="#" target="_blank">Link</a>';
+
+  const exampleResult = getHtmlSanitized(exampleText) // '<a href="#">Link</a>'
+```
+ */
+export function getHtmlSanitized(dirty: string): string {
+  const clean = dompurify.sanitize(dirty)
+
+  return clean
+}
+````
+:::
+
+:::details `typescript-utilities/index.ts`
+```ts
+export * from './src/utilities/getHtmlSanitized'
+```
+:::
+
+### Hyper - useContentable
+
+:::details `src/composables/useContentable.ts`
+```ts
+import { getHtmlSanitized } from '@vue-box/typescript-utilities'
+import { computed, type ComputedRef, type DeepReadonly, type Ref } from 'vue'
+
+export interface UseContentableOptions {
+  content: DeepReadonly<Ref<string | undefined>>
+  isContentHtml: DeepReadonly<Ref<boolean | undefined>>
+}
+
+export interface UseContentableReturnType {
+  sanitizedHtml: ComputedRef<string | undefined>
+}
+
+export function useContentable(options: UseContentableOptions): UseContentableReturnType {
+  const { content, isContentHtml } = options
+
+  const sanitizedHtml = computed((): string | undefined => {
+    const newContent = content.value !== undefined && isContentHtml.value ? getHtmlSanitized(content.value) : content.value
+
+    return newContent
+  })
+
+  return {
+    sanitizedHtml,
+  }
+}
+```
+:::
+
+:::details `src/types/ContentableType.ts`
+```ts
+export interface ContentableType {
+  content?: string
+  isContentHtml?: boolean
+}
+```
+:::
+
+### Hyper - HtmlDivision
+
+:::details `src/components/HtmlDivision.vue`
+```vue
+<script lang="ts" setup>
+import { type HTMLAttributes, toRefs } from 'vue'
+
+import { useContentable } from '../composables/useContentable'
+import type { ContentableType } from '../types/ContentableType'
+
+export interface HtmlDivisionProperties extends ContentableType {
+  elementAttributes?: HTMLAttributes
+}
+
+const properties = defineProps<HtmlDivisionProperties>()
+
+const { content, isContentHtml } = toRefs(properties)
+
+const { sanitizedHtml } = useContentable({ content, isContentHtml })
+</script>
+
+<template>
+  <!-- eslint-disable vue/no-v-html -->
+  <div
+    v-if="isContentHtml"
+    class="html-division"
+    :class="{ 'html-division--is-content-html': true }"
+    v-bind="elementAttributes"
+    v-html="sanitizedHtml"
+  ></div>
+
+  <div v-else v-bind="elementAttributes" class="html-division">
+    <slot name="default">
+      {{ content }}
+    </slot>
+  </div>
+</template>
+```
+:::
+
+:::details `index.ts`
+```ts
+export { default as HtmlDivision } from './src/components/HtmlDivision.vue'
+export * from './src/components/HtmlDivision.vue'
+export * from './src/composables/useContentable'
+export type * from './src/types/ContentableType'
+```
+:::
+
+### Storybookcase - HtmlDivision.stories
+
+:::details `src/stories/HtmlDivision.stories.ts`
+```ts
+import type { Meta, StoryObj } from '@storybook/vue3'
+import { HtmlDivision } from '@vue-box/hyper'
+
+const meta = {
+  title: 'Hyper/HtmlDivision',
+  component: HtmlDivision,
+  tags: ['autodocs'],
+  argTypes: {
+    content: { control: 'text' },
+    isContentHtml: { control: 'boolean' },
+  },
+  args: {
+    content: 'Hello world!',
+    isContentHtml: false,
+  },
+} satisfies Meta<typeof HtmlDivision>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Content: Story = {}
+
+export const ContentWithHtml: Story = {
+  args: {
+    content: '<a href="#" target="blank">Link</a>',
+  },
+}
+
+export const ContentAsHtml: Story = {
+  args: {
+    content: '<a href="#" target="blank">Link</a>',
+    isContentHtml: true,
+  },
+}
+```
+:::
+
+## Creating HtmlRenderer
+
+### Hyper - HtmlRendererProperties
+
+:::details `src/constants/htmlComponentNamesConstant.ts`
+```ts
+export const htmlComponentNamesConstant = ['HtmlDivision'] as const
+```
+:::
+
+:::details `src/types/HtmlComponentNameType.ts`
+```ts
+import type { htmlComponentNamesConstant } from '../constants/htmlComponentNamesConstant'
+
+export type HtmlComponentNameType = (typeof htmlComponentNamesConstant)[number]
+```
+:::
+
+:::details `src/types/HtmlRendererProperties.ts`
+```ts
+import type { HtmlDivisionProperties } from '../components/HtmlDivision.vue'
+import type { HtmlComponentNameType } from './HtmlComponentNameType'
+
+export interface TypeHtmlRendererProperties<TType extends HtmlComponentNameType, TComponentProperties> {
+  id: string
+  type: TType
+  componentProperties: TComponentProperties
+}
+
+export interface TypeHtmlRendererPropertiesChildable<TType extends HtmlComponentNameType, TComponentProperties>
+  extends TypeHtmlRendererProperties<TType, TComponentProperties> {
+  children?: HtmlRendererProperties[]
+}
+
+export type HtmlRendererDivisionProperties = TypeHtmlRendererPropertiesChildable<'HtmlDivision', HtmlDivisionProperties>
+
+export type HtmlRendererProperties =
+  | HtmlRendererDivisionProperties
+```
+:::
+
+### Hyper - HtmlRenderer
+
+:::details `src/components/HtmlRenderer.vue`
+```ts
+<script lang="ts" setup>
+import { computed } from 'vue'
+
+import type { HtmlRendererProperties } from '../types/HtmlRendererProperties'
+import HtmlDivision from './HtmlDivision.vue'
+
+const properties = defineProps<HtmlRendererProperties>()
+</script>
+
+<template>
+  <HtmlDivision v-if="properties.type === 'HtmlDivision'" v-bind="properties.componentProperties">
+    <HtmlRenderer v-for="child in properties.children" :key="child.id" v-bind="child"></HtmlRenderer>
+  </HtmlDivision>
+</template>
+```
+:::
+
+## Using HtmlRenderer
+
+### Hyper - useHtmlRendererData
+
+:::details `src/constants/htmlRendererDataTypesConstant.ts`
+```ts
+export const htmlRendererDataTypesConstant = ['Text'] as const
+```
+:::
+
+:::details `src/types/HtmlRendererDataTypeType.ts`
+```ts
+import type { htmlRendererDataTypesConstant } from '../constants/htmlRendererDataTypesConstant'
+
+export type HtmlRendererDataTypeType = (typeof htmlRendererDataTypesConstant)[number]
+```
+:::
+
+:::details `src/types/HtmlRendererDataSetType.ts`
+```ts
+import type { HtmlRendererDataTypeType } from './HtmlRendererDataTypeType'
+
+export interface TypeHtmlRendererData<TType extends HtmlRendererDataTypeType> {
+  type: TType
+}
+
+export interface HtmlRendererTextData extends TypeHtmlRendererData<'Text'> {
+  value: string
+}
+
+export type TypeHtmlRendererDataMap<TMap extends Record<HtmlRendererDataTypeType, unknown>> = TMap
+
+export type HtmlRendererDataMap = TypeHtmlRendererDataMap<{
+  Text: HtmlRendererTextData
+}>
+
+export type HtmlRendererDataType = HtmlRendererDataMap[keyof HtmlRendererDataMap]
+
+export type HtmlRendererDataSetType = Record<string, HtmlRendererDataType>
+```
+:::
+
+:::details `src/composables/useHtmlRendererData.ts`
+```ts
+import { type Ref, ref } from 'vue'
+
+import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSetType'
+
+export interface useHtmlRendererDataReturnType {
+  dataSet: Ref<HtmlRendererDataSetType>
+}
+
+export function useHtmlRendererData(): useHtmlRendererDataReturnType {
+  const dataSet = ref<HtmlRendererDataSetType>({
+    'text-data': {
+      type: 'Text',
+      value: "<a href='#' target='_blank'>Link</a>",
+    },
+  })
+
+  return {
+    dataSet,
+  }
+}
+```
+:::
+
+### Hyper - useHtmlRendererItems
+
+:::details `src/composables/useHtmlRendererItems.ts`
+```ts
+import { computed, type ComputedRef, type Ref } from 'vue'
+
+import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSetType'
+import type { HtmlRendererProperties } from '../types/HtmlRendererProperties'
+
+export interface UseHtmlRendererItemsOptions {
+  dataSet: Ref<HtmlRendererDataSetType>
+}
+
+export interface UseHtmlRendererItemsReturnType {
+  items: ComputedRef<HtmlRendererProperties[]>
+}
+
+export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseHtmlRendererItemsReturnType {
+  const { dataSet } = options
+
+  const items = computed((): HtmlRendererProperties[] => [
+    {
+      id: 'structure-1',
+      type: 'HtmlDivision',
+      componentProperties: {
+        content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
+        isContentHtml: true,
+      },
+    },
+  ])
+
+  return { items }
+}
+```
+:::
+
+### Hyper - Kitchensink
+
+:::details `src/views/HomeView.vue`
+```vue
+<script setup lang="ts">
+import { computed } from 'vue'
+
+import HtmlRenderer from '../components/HtmlRenderer.vue'
+import { useHtmlRendererData } from '../composables/useHtmlRendererData'
+import { useHtmlRendererItems } from '../composables/useHtmlRendererItems'
+
+const { dataSet } = useHtmlRendererData()
+const { items } = useHtmlRendererItems({ dataSet })
+</script>
+
+<template>
+  <main class="home-view">
+    <h1 class="home-view__heading">Html kitchensink</h1>
+
+    <article class="home-view__article">
+      <h2 class="home-view__article-heading">Components</h2>
+
+      <table class="home-view__article-table">
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>Result</th>
+          </tr>
+
+          <template v-for="item in items" :key="item.id">
+            <tr>
+              <td>{{ item.type }}</td>
+              <td>
+                <HtmlRenderer v-bind="item"></HtmlRenderer>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </article>
+  </main>
+</template>
+
+<style lang="scss" scoped>
+@reference "../assets/main.css";
+
+.home-view {
+  @apply px-3;
+  @apply bg-slate-300;
+  @apply min-h-screen;
+
+  .home-view__heading {
+    @apply text-xl;
+    @apply font-semibold;
+    @apply py-1;
+  }
+
+  .home-view__article {
+    .home-view__article-heading {
+      @apply text-lg;
+      @apply font-semibold;
+      @apply py-1;
+    }
+
+    .home-view__article-table {
+      @apply text-sm;
+      @apply w-full;
+
+      th,
+      td {
+        @apply py-1;
+        @apply px-3;
+        @apply border;
+        @apply border-slate-400;
+        @apply align-top;
+      }
+
+      th {
+        @apply text-start;
+      }
+
+      td {
+        @apply bg-white;
+
+        input,
+        textarea {
+          @apply w-full;
+        }
+
+        &:first-child {
+          @apply w-1;
+          @apply bg-transparent;
+        }
+      }
+
+      :deep(td) {
+        input,
+        textarea {
+          @apply w-full;
+        }
+      }
+    }
+  }
+}
+</style>
+```

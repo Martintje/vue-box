@@ -3,6 +3,8 @@
 <template>
   <main class="home-view">
     <h1 class="home-view__heading">Design system kitchensink</h1>
+
+    <p>Work in progress</p>
   </main>
 </template>
 

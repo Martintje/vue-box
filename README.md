@@ -20,3 +20,4 @@ To run each repo individually, from each project folder run `pnpm dev:open`
 - http://localhost:8081 → Typescript utilities
 - http://localhost:8082 → Developer documentation (vuepress)
 - http://localhost:8083 → Storybookcase (storybook)
+- http://localhost:8084 → Hyper (basic components)

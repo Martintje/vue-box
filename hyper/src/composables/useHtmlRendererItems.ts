@@ -1,6 +1,6 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 
-import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSet'
+import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSetType'
 import type { HtmlRendererProperties } from '../types/HtmlRendererProperties'
 
 export interface UseHtmlRendererItemsOptions {

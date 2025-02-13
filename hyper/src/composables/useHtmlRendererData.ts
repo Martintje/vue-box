@@ -1,6 +1,6 @@
 import { type Ref, ref } from 'vue'
 
-import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSet'
+import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSetType'
 
 export interface useHtmlRendererDataReturnType {
   dataSet: Ref<HtmlRendererDataSetType>
