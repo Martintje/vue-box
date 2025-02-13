@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "vitest.explorer",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    // Customisation
+    "bradlc.vscode-tailwindcss",
+    "Cardinal90.multi-cursor-case-preserve",
+    "heybourn.headwind",
+    "lukas-tr.materialdesignicons-intellisense",
+    "sleistner.vscode-fileutils",
+    "yzhang.markdown-all-in-one"
+  ],
+  "unwantedRecommendations": [
+    // Customisation
+    "octref.vetur", 
+    "Vue.vscode-typescript-vue-plugin"
+  ]
+}

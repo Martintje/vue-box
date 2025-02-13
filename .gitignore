@@ -3,3 +3,4 @@ node_modules
 dist
 developer-documentation/docs/.vuepress/.cache
 developer-documentation/docs/.vuepress/.temp
+developer-documentation/docs/.vuepress/config.js.**.mjs

@@ -1,5 +1,6 @@
 packages:
   - "typescript-utilities"
+  - "hyper"
   - "design-system"
   - "developer-documentation"
   - "storybookcase"

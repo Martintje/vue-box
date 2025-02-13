@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import type { RouteType } from '@/types/RouteType'
+import type { RouteType } from '../types/RouteType'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue'),
+      component: () => import('../views/HomeView.vue'),
     },
   ] satisfies RouteType[],
 })

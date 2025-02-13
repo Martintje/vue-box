@@ -360,7 +360,7 @@ export const routeNamesConstant = [
 ```
 - add `design-system/types/RouteNameType.ts` →
 ```ts
-import type { routeNamesConstant } from "@/constants/routeNamesConstant";
+import type { routeNamesConstant } from "../constants/routeNamesConstant";
 
 export type RouteNameType = typeof routeNamesConstant[number];
 ```
@@ -377,7 +377,7 @@ export type RouteType = RouteRecordRaw & {
 ```ts
 import { createRouter, createWebHistory } from 'vue-router'
 
-import type { RouteType } from '@/types/RouteType'
+import type { RouteType } from '../types/RouteType'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -385,7 +385,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue'),
+      component: () => import('../views/HomeView.vue'),
     },
   ] satisfies RouteType[],
 })
@@ -415,14 +415,14 @@ export default router
 - replace `design-system/index.html` → `head` → `<title>Design System</title>`
 - replace `design-system/package.json` → `name` → `@vue-box/design-system`
 - remove `design-system/package.json` → `"private": true,`
-- add `design-system/library.ts` →
+- add `design-system/index.ts` →
 ```ts
 export * from './src/constants/routeNamesConstant'
 export type * from './src/types/RouteNameType'
 export type * from './src/types/RouteType'
 ```
-- add `design-system/package.json` → `"main": "library.ts",`
-- add `design-system/tsconfig.eslint.json` → `include` → `"library.ts",`
+- add `design-system/package.json` → `"main": "index.ts",`
+- add `design-system/tsconfig.eslint.json` → `include` → `"index.ts",`
 - run `rm -rf pnpm-lock.yaml node_modules/ && cd .. && cp -r ./design-system ./typescript-utilities`
 - replace `typescript-utilities/index.html` → `head` → `<title>Typescript Utilities</title>`
 - replace `typescript-utilities/package.json` → `name` → `@vue-box/typescript-utilities`

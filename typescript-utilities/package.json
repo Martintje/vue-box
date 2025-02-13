@@ -2,7 +2,7 @@
   "name": "@vue-box/typescript-utilities",
   "version": "0.0.0",
   "type": "module",
-  "main": "library.ts",
+  "main": "index.ts",
   "scripts": {
     "clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",
     "dev": "vite",

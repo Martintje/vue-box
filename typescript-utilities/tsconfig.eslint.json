@@ -7,10 +7,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "baseUrl": ".",
+    "baseUrl": "."
   },
   "include": [
-    "library.ts",
+    "index.ts",
 
     "./cypress.config.ts",
     "./eslint.config.ts",
@@ -24,7 +24,5 @@
     "cypress/**/*.vue",
     "scripts/**/*.mjs"
   ],
-  "exclude": [
-    "./vite.config.ts.timestamp-**.mjs"
-  ]
+  "exclude": ["./vite.config.ts.timestamp-**.mjs"]
 }

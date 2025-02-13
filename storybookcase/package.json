@@ -2,7 +2,6 @@
   "name": "@vue-box/storybookcase",
   "version": "0.0.0",
   "type": "module",
-  "main": "library.ts",
   "scripts": {
     "clean": "rm -rf pnpm-lock.yaml node_modules/ dist/",
     "type-check": "vue-tsc --build",
@@ -47,6 +46,7 @@
     "@vitejs/plugin-vue-jsx": "^4.1.1",
     "@vitest/eslint-plugin": "1.1.28",
     "@vue-box/design-system": "workspace:*",
+    "@vue-box/hyper": "workspace:*",
     "@vue-box/typescript-utilities": "workspace:*",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.4.0",

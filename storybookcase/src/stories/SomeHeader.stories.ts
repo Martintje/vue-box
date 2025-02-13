@@ -10,6 +10,7 @@ const meta = {
    */
   title: 'Example/SomeHeader',
   component: SomeHeader,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   render: (arguments_: any) => ({
     components: { SomeHeader },
     setup() {
@@ -43,6 +44,7 @@ export const LoggedIn: Story = {
 
 export const LoggedOut: Story = {
   args: {
+    // eslint-disable-next-line unicorn/no-null
     user: null,
   },
 }
