@@ -651,7 +651,7 @@ eslint({
 
 ## Creating HtmlDivision
 
-### Typescript utilities - getHtmlSanitized
+### Typescript utilities
 
 :::details `src/utilities/getHtmlSanitized.ts`
 ````ts
@@ -673,13 +673,13 @@ export function getHtmlSanitized(dirty: string): string {
 ````
 :::
 
-:::details `typescript-utilities/index.ts`
+:::details `index.ts`
 ```ts
 export * from './src/utilities/getHtmlSanitized'
 ```
 :::
 
-### Hyper - useContentable
+### Hyper
 
 :::details `src/composables/useContentable.ts`
 ```ts
@@ -719,8 +719,6 @@ export interface ContentableType {
 }
 ```
 :::
-
-### Hyper - HtmlDivision
 
 :::details `src/components/HtmlDivision.vue`
 ```vue
@@ -769,7 +767,7 @@ export type * from './src/types/ContentableType'
 ```
 :::
 
-### Storybookcase - HtmlDivision.stories
+### Storybookcase
 
 :::details `src/stories/HtmlDivision.stories.ts`
 ```ts
@@ -810,63 +808,219 @@ export const ContentAsHtml: Story = {
 ```
 :::
 
-## Creating HtmlRenderer
+## Creating HtmlInputNumber
 
-### Hyper - HtmlRendererProperties
+### Hyper
 
-:::details `src/constants/htmlComponentNamesConstant.ts`
+:::details `src/types/RecordToUnionType.ts`
 ```ts
-export const htmlComponentNamesConstant = ['HtmlDivision'] as const
+/**
+ * Source: @vue/runtime-core/dist/runtime-core.d.ts
+ */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type RecordToUnionType<T extends Record<string, any>> = T[keyof T]
 ```
 :::
 
-:::details `src/types/HtmlComponentNameType.ts`
+:::details `src/types/UnionToIntersectionType.ts`
 ```ts
-import type { htmlComponentNamesConstant } from '../constants/htmlComponentNamesConstant'
+/**
+ * Source: @vue/shared/dist/shared.d.ts
+ *
+ * Error `[plugin:vite:vue] [@vue/compiler-sfc] Unresolvable type: TSConditionalType` 
+ * Prevented by using `@vue-ignore` since it's only for use in AST
+ * Source: https://github.com/vitejs/vite-plugin-vue/issues/167#issuecomment-1537641637
+ * Source: https://github.com/vuejs/core/issues/8468#issuecomment-2431273791
+ */
 
-export type HtmlComponentNameType = (typeof htmlComponentNamesConstant)[number]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type UnionToIntersectionType<U> = /* @vue-ignore */ (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
 ```
 :::
 
-:::details `src/types/HtmlRendererProperties.ts`
+:::details `src/types/ShortEmitsType.ts`
 ```ts
-import type { HtmlDivisionProperties } from '../components/HtmlDivision.vue'
-import type { HtmlComponentNameType } from './HtmlComponentNameType'
+import type { RecordToUnionType } from './RecordToUnionType'
+import type { UnionToIntersectionType } from './UnionToIntersectionType'
 
-export interface TypeHtmlRendererProperties<TType extends HtmlComponentNameType, TComponentProperties> {
-  id: string
-  type: TType
-  componentProperties: TComponentProperties
-}
+/**
+ * Source: @vue/runtime-core/dist/runtime-core.d.ts
+ */
 
-export interface TypeHtmlRendererPropertiesChildable<TType extends HtmlComponentNameType, TComponentProperties>
-  extends TypeHtmlRendererProperties<TType, TComponentProperties> {
-  children?: HtmlRendererProperties[]
-}
-
-export type HtmlRendererDivisionProperties = TypeHtmlRendererPropertiesChildable<'HtmlDivision', HtmlDivisionProperties>
-
-export type HtmlRendererProperties =
-  | HtmlRendererDivisionProperties
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ShortEmitsType<T extends Record<string, any>> = UnionToIntersectionType<
+  RecordToUnionType<{
+    [K in keyof T]: (event_: K, ...arguments_: T[K]) => void
+  }>
+>
 ```
 :::
 
-### Hyper - HtmlRenderer
-
-:::details `src/components/HtmlRenderer.vue`
-```ts
+:::details `src/components/HtmlInputNumber.vue`
+```vue
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { type InputHTMLAttributes } from 'vue'
 
-import type { HtmlRendererProperties } from '../types/HtmlRendererProperties'
-import HtmlDivision from './HtmlDivision.vue'
+import type { ShortEmitsType } from '../types/ShortEmitsType'
 
-const properties = defineProps<HtmlRendererProperties>()
+export type HtmlInputNumberModel = number
+
+export interface HtmlInputNumberProperties {
+  modelValue?: HtmlInputNumberModel
+  elementAttributes?: InputHTMLAttributes
+  id: string
+}
+
+defineProps<HtmlInputNumberProperties>()
+
+export interface HtmlInputNumberEmits {
+  'update:modelValue': [data: HtmlInputNumberModel]
+}
+
+defineEmits<ShortEmitsType<HtmlInputNumberEmits>>()
+
+const model = defineModel<HtmlInputNumberModel>()
 </script>
 
 <template>
-  <HtmlDivision v-if="properties.type === 'HtmlDivision'" v-bind="properties.componentProperties">
-    <HtmlRenderer v-for="child in properties.children" :key="child.id" v-bind="child"></HtmlRenderer>
+  <input v-bind="elementAttributes" :id v-model="model" class="html-input-number" type="number" />
+</template>
+```
+:::
+
+:::details `index.ts`
+```ts
+export { default as HtmlDivision } from './src/components/HtmlDivision.vue'
+export * from './src/components/HtmlDivision.vue'
+export { default as HtmlInputNumber } from './src/components/HtmlInputNumber.vue'
+export * from './src/components/HtmlInputNumber.vue'
+export * from './src/composables/useContentable'
+export type * from './src/types/ContentableType'
+export type * from './src/types/RecordToUnionType'
+export type * from './src/types/ShortEmitsType'
+export type * from './src/types/UnionToIntersectionType'
+```
+:::
+
+### Storybookcase
+
+:::details `src/stories/HtmlInputNumber.stories.ts`
+```ts
+import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/vue3'
+import { HtmlInputNumber } from '@vue-box/hyper'
+
+const meta = {
+  title: 'Hyper/HtmlInputNumber',
+  component: HtmlInputNumber,
+  tags: ['autodocs'],
+  argTypes: {
+    modelValue: { control: 'number' },
+    'onUpdate:modelValue': fn(),
+  },
+  args: {
+    id: '1',
+    modelValue: 3,
+    'onUpdate:modelValue': fn(),
+  },
+} satisfies Meta<typeof HtmlInputNumber>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {}
+```
+:::
+
+## Creating HtmlRenderer
+
+### Hyper
+
+:::details `src/types/TypeRendererEmitName.ts`
+```ts
+export type TypeRendererEmitName<
+  TComponentName extends string,
+  TEmitName extends string | number | symbol,
+> = `${Uncapitalize<TComponentName>}:${TEmitName extends string ? TEmitName : never}`
+```
+:::
+
+:::details `src/types/TypeRendererListeners.ts`
+```ts
+import type { ShortListenersType } from './ShortListenersType'
+import type { TypeListenerName } from './TypeListenerName'
+
+export type TypeRendererListeners<THtmlRendererEmits extends object> = {
+  [TEmitName in keyof THtmlRendererEmits as TypeListenerName<TEmitName>]: ShortListenersType<Pick<THtmlRendererEmits, TEmitName>>
+}
+```
+:::
+
+:::details `src/components/HtmlRenderer.vue`
+```ts
+<script lang="ts">
+export const htmlRendererComponentNamesConstant = ['HtmlDivision', 'HtmlInputNumber'] as const
+</script>
+
+<script lang="ts" setup generic="TMeta">
+import { computed } from 'vue'
+
+import type { ShortEmitsType } from '../types/ShortEmitsType'
+import type { TypeRendererEmitName } from '../types/TypeRendererEmitName'
+import type { TypeRendererListeners } from '../types/TypeRendererListeners'
+import HtmlDivision, { type HtmlDivisionProperties } from './HtmlDivision.vue'
+import HtmlInputNumber, { type HtmlInputNumberEmits, type HtmlInputNumberProperties } from './HtmlInputNumber.vue'
+
+export type HtmlRendererComponentNameType = (typeof htmlRendererComponentNamesConstant)[number]
+
+export interface TypeHtmlRendererPropertiesBase<TMeta, TComponentName extends HtmlRendererComponentNameType, TComponentAttributes> {
+  componentId: string
+  name: TComponentName
+  componentAttributes: TComponentAttributes
+  meta: TMeta
+}
+
+export interface TypeHtmlRendererPropertiesChildable<TMeta, TComponentName extends HtmlRendererComponentNameType, TComponentAttributes>
+  extends TypeHtmlRendererPropertiesBase<TMeta, TComponentName, TComponentAttributes> {
+  children?: HtmlRendererProperties<TMeta>[]
+}
+
+export type HtmlRendererHtmlDivisionProperties<TMeta> = TypeHtmlRendererPropertiesChildable<TMeta, 'HtmlDivision', HtmlDivisionProperties>
+export type HtmlRendererHtmlInputNumberProperties<TMeta> = TypeHtmlRendererPropertiesBase<TMeta, 'HtmlInputNumber', HtmlInputNumberProperties>
+
+export type HtmlRendererProperties<TMeta> =
+  | HtmlRendererHtmlDivisionProperties<TMeta>
+  | HtmlRendererHtmlInputNumberProperties<TMeta>
+
+export type TypeHtmlRendererEmits<TMeta, TComponentName extends HtmlRendererComponentNameType, TEmits extends object> = {
+  [TEmitName in keyof TEmits as TypeRendererEmitName<TComponentName, TEmitName>]: [meta: TMeta, componentId: string, data: TEmits[TEmitName]]
+}
+
+export type HtmlRendererHtmlInputNumberEmits<TMeta> = TypeHtmlRendererEmits<TMeta, 'HtmlInputNumber', HtmlInputNumberEmits>
+
+export type HtmlRendererEmits<TMeta> = HtmlRendererHtmlInputNumberEmits<TMeta>
+
+const properties = defineProps<HtmlRendererProperties<TMeta>>()
+
+const emit = defineEmits<ShortEmitsType<HtmlRendererEmits<TMeta>>>()
+
+const rendererListeners = computed(
+  (): TypeRendererListeners<HtmlRendererEmits<TMeta>> => ({
+    'onHtmlInputNumber:update:modelValue': (...event) => emit('htmlInputNumber:update:modelValue', ...event),
+  }),
+)
+</script>
+
+<template>
+  <HtmlInputNumber
+    v-if="properties.name === 'HtmlInputNumber'"
+    v-bind="properties.componentAttributes"
+    @update:model-value="(...event) => emit('htmlInputNumber:update:modelValue', properties.meta, properties.componentId, event)"
+  ></HtmlInputNumber>
+
+  <HtmlDivision v-else-if="properties.name === 'HtmlDivision'" v-bind="properties.componentAttributes">
+    <HtmlRenderer v-for="child in properties.children" :key="child.componentId" v-bind="{ ...child, ...rendererListeners }"></HtmlRenderer>
   </HtmlDivision>
 </template>
 ```
@@ -874,11 +1028,11 @@ const properties = defineProps<HtmlRendererProperties>()
 
 ## Using HtmlRenderer
 
-### Hyper - useHtmlRendererData
+### Hyper
 
 :::details `src/constants/htmlRendererDataTypesConstant.ts`
 ```ts
-export const htmlRendererDataTypesConstant = ['Text'] as const
+export const htmlRendererDataTypesConstant = ['Number', 'Text'] as const
 ```
 :::
 
@@ -898,6 +1052,9 @@ export interface TypeHtmlRendererData<TType extends HtmlRendererDataTypeType> {
   type: TType
 }
 
+export interface HtmlRendererNumberData extends TypeHtmlRendererData<'Number'> {
+  value: number
+}
 export interface HtmlRendererTextData extends TypeHtmlRendererData<'Text'> {
   value: string
 }
@@ -905,6 +1062,7 @@ export interface HtmlRendererTextData extends TypeHtmlRendererData<'Text'> {
 export type TypeHtmlRendererDataMap<TMap extends Record<HtmlRendererDataTypeType, unknown>> = TMap
 
 export type HtmlRendererDataMap = TypeHtmlRendererDataMap<{
+  Number: HtmlRendererNumberData
   Text: HtmlRendererTextData
 }>
 
@@ -930,6 +1088,10 @@ export function useHtmlRendererData(): useHtmlRendererDataReturnType {
       type: 'Text',
       value: "<a href='#' target='_blank'>Link</a>",
     },
+    'number-data': {
+      type: 'Number',
+      value: 3,
+    },
   })
 
   return {
@@ -939,33 +1101,43 @@ export function useHtmlRendererData(): useHtmlRendererDataReturnType {
 ```
 :::
 
-### Hyper - useHtmlRendererItems
-
 :::details `src/composables/useHtmlRendererItems.ts`
 ```ts
 import { computed, type ComputedRef, type Ref } from 'vue'
 
+import type { HtmlRendererProperties } from '../components/HtmlRenderer.vue'
 import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSetType'
-import type { HtmlRendererProperties } from '../types/HtmlRendererProperties'
 
 export interface UseHtmlRendererItemsOptions {
   dataSet: Ref<HtmlRendererDataSetType>
 }
 
-export interface UseHtmlRendererItemsReturnType {
-  items: ComputedRef<HtmlRendererProperties[]>
+export type HtmlRendererMeta = 'text-data' | 'number-data'
+
+export interface UseHtmlRendererItemsReturnType<TMeta> {
+  items: ComputedRef<HtmlRendererProperties<TMeta>[]>
 }
 
-export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseHtmlRendererItemsReturnType {
+export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseHtmlRendererItemsReturnType<HtmlRendererMeta> {
   const { dataSet } = options
 
-  const items = computed((): HtmlRendererProperties[] => [
+  const items = computed((): HtmlRendererProperties<HtmlRendererMeta>[] => [
     {
-      id: 'structure-1',
-      type: 'HtmlDivision',
-      componentProperties: {
+      componentId: 'structure-1',
+      name: 'HtmlDivision',
+      meta: 'text-data',
+      componentAttributes: {
         content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
         isContentHtml: true,
+      },
+    },
+    {
+      componentId: 'structure-2',
+      name: 'HtmlInputNumber',
+      meta: 'number-data',
+      componentAttributes: {
+        id: 'HtmlInputNumber-1',
+        modelValue: dataSet.value['number-data']?.type === 'Number' ? dataSet.value['number-data'].value : undefined,
       },
     },
   ])
@@ -975,19 +1147,30 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
 ```
 :::
 
-### Hyper - Kitchensink
-
 :::details `src/views/HomeView.vue`
 ```vue
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import HtmlRenderer from '../components/HtmlRenderer.vue'
+import HtmlRenderer, { type HtmlRendererEmits } from '../components/HtmlRenderer.vue'
 import { useHtmlRendererData } from '../composables/useHtmlRendererData'
-import { useHtmlRendererItems } from '../composables/useHtmlRendererItems'
+import { useHtmlRendererHandlers } from '../composables/useHtmlRendererHandlers'
+import { type HtmlRendererMeta, useHtmlRendererItems } from '../composables/useHtmlRendererItems'
+import type { TypeRendererListeners } from '../types/TypeRendererListeners'
 
 const { dataSet } = useHtmlRendererData()
 const { items } = useHtmlRendererItems({ dataSet })
+const {
+  'onHtmlInputNumber:update:modelValue': onHtmlInputNumberUpdateModelValue,
+} = useHtmlRendererHandlers({ dataSet })
+
+const rendererListeners = computed(() => {
+  const newRendererListeners: TypeRendererListeners<HtmlRendererEmits<HtmlRendererMeta>> = {
+    'onHtmlInputNumber:update:modelValue': onHtmlInputNumberUpdateModelValue,
+  }
+
+  return newRendererListeners
+})
 </script>
 
 <template>
@@ -1006,9 +1189,9 @@ const { items } = useHtmlRendererItems({ dataSet })
 
           <template v-for="item in items" :key="item.id">
             <tr>
-              <td>{{ item.type }}</td>
+              <td>{{ item.name }}</td>
               <td>
-                <HtmlRenderer v-bind="item"></HtmlRenderer>
+                <HtmlRenderer v-bind="{ ...item, ...rendererListeners }"></HtmlRenderer>
               </td>
             </tr>
           </template>
@@ -1087,17 +1270,25 @@ const { items } = useHtmlRendererItems({ dataSet })
 ```ts
 export { default as HtmlDivision } from './src/components/HtmlDivision.vue'
 export * from './src/components/HtmlDivision.vue'
+export { default as HtmlInputNumber } from './src/components/HtmlInputNumber.vue'
+export * from './src/components/HtmlInputNumber.vue'
 export { default as HtmlRenderer } from './src/components/HtmlRenderer.vue'
 export * from './src/components/HtmlRenderer.vue'
 export * from './src/composables/useContentable'
 export * from './src/composables/useHtmlRendererData'
+export * from './src/composables/useHtmlRendererHandlers'
 export * from './src/composables/useHtmlRendererItems'
-export * from './src/constants/htmlComponentNamesConstant'
 export * from './src/constants/htmlRendererDataTypesConstant'
 export type * from './src/types/ContentableType'
-export type * from './src/types/HtmlComponentNameType'
+export type * from './src/types/ExtractComponentAttributesType'
 export type * from './src/types/HtmlRendererDataSetType'
 export type * from './src/types/HtmlRendererDataTypeType'
-export type * from './src/types/HtmlRendererProperties'
+export type * from './src/types/RecordToUnionType'
+export type * from './src/types/ShortEmitsType'
+export type * from './src/types/ShortListenersType'
+export type * from './src/types/TypeListenerName'
+export type * from './src/types/TypeRendererEmitName'
+export type * from './src/types/TypeRendererListeners'
+export type * from './src/types/UnionToIntersectionType'
 ```
 :::

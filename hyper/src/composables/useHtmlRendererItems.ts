@@ -1,65 +1,73 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 
+import type { HtmlRendererProperties } from '../components/HtmlRenderer.vue'
 import type { HtmlRendererDataSetType } from '../types/HtmlRendererDataSetType'
-import type { HtmlRendererProperties } from '../types/HtmlRendererProperties'
 
 export interface UseHtmlRendererItemsOptions {
   dataSet: Ref<HtmlRendererDataSetType>
 }
 
-export interface UseHtmlRendererItemsReturnType {
-  items: ComputedRef<HtmlRendererProperties[]>
+export type HtmlRendererMeta = 'text-data' | 'number-data'
+
+export interface UseHtmlRendererItemsReturnType<TMeta> {
+  items: ComputedRef<HtmlRendererProperties<TMeta>[]>
 }
 
-export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseHtmlRendererItemsReturnType {
+export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseHtmlRendererItemsReturnType<HtmlRendererMeta> {
   const { dataSet } = options
 
-  const items = computed((): HtmlRendererProperties[] => [
+  const items = computed((): HtmlRendererProperties<HtmlRendererMeta>[] => [
     {
-      id: 'structure-1',
-      type: 'HtmlDivision',
-      componentProperties: {
+      componentId: 'structure-1',
+      name: 'HtmlDivision',
+      meta: 'text-data',
+      componentAttributes: {
         content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
         isContentHtml: true,
       },
     },
     {
-      id: 'structure-2',
-      type: 'HtmlInputText',
-      componentProperties: {
+      componentId: 'structure-2',
+      name: 'HtmlInputText',
+      meta: 'text-data',
+      componentAttributes: {
         id: 'HtmlInputText-1',
         modelValue: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
       },
     },
     {
-      id: 'structure-3',
-      type: 'HtmlInputText',
-      componentProperties: {
+      componentId: 'structure-3',
+      name: 'HtmlInputText',
+      meta: 'text-data',
+      componentAttributes: {
         id: 'HtmlInputText-2',
         modelValue: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
       },
     },
     {
-      id: 'structure-4',
-      type: 'HtmlInputNumber',
-      componentProperties: {
+      componentId: 'structure-4',
+      name: 'HtmlInputNumber',
+      meta: 'number-data',
+      componentAttributes: {
         id: 'HtmlInputNumber-2',
         modelValue: dataSet.value['number-data']?.type === 'Number' ? dataSet.value['number-data'].value : undefined,
       },
     },
     {
-      id: 'structure-5',
-      type: 'HtmlLabel',
-      componentProperties: {
+      componentId: 'structure-5',
+      name: 'HtmlLabel',
+      meta: 'number-data',
+      componentAttributes: {
         content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
         forId: 'HtmlInputNumber-2',
         isContentHtml: true,
       },
     },
     {
-      id: 'structure-6',
-      type: 'HtmlSpan',
-      componentProperties: {
+      componentId: 'structure-6',
+      name: 'HtmlSpan',
+      meta: 'text-data',
+      componentAttributes: {
         content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
         isContentHtml: true,
       },

@@ -1,21 +1,24 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import HtmlRenderer from '../components/HtmlRenderer.vue'
+import HtmlRenderer, { type HtmlRendererEmits } from '../components/HtmlRenderer.vue'
 import { useHtmlRendererData } from '../composables/useHtmlRendererData'
 import { useHtmlRendererHandlers } from '../composables/useHtmlRendererHandlers'
-import { useHtmlRendererItems } from '../composables/useHtmlRendererItems'
-import type { HtmlRendererEventNameType } from '../types/HtmlRendererEventNameType'
+import { type HtmlRendererMeta, useHtmlRendererItems } from '../composables/useHtmlRendererItems'
+import type { TypeRendererListeners } from '../types/TypeRendererListeners'
 
 const { dataSet } = useHtmlRendererData()
 const { items } = useHtmlRendererItems({ dataSet })
-const { onHtmlInputNumberUpdateModelValue, onHtmlInputTextUpdateModelValue } = useHtmlRendererHandlers({ dataSet })
+const {
+  'onHtmlInputNumber:update:modelValue': onHtmlInputNumberUpdateModelValue,
+  'onHtmlInputText:update:modelValue': onHtmlInputTextUpdateModelValue,
+} = useHtmlRendererHandlers({ dataSet })
 
 const rendererListeners = computed(() => {
-  const newRendererListeners = {
-    onHtmlInputNumberUpdateModelValue,
-    onHtmlInputTextUpdateModelValue,
-  } satisfies Record<HtmlRendererEventNameType, unknown>
+  const newRendererListeners: TypeRendererListeners<HtmlRendererEmits<HtmlRendererMeta>> = {
+    'onHtmlInputNumber:update:modelValue': onHtmlInputNumberUpdateModelValue,
+    'onHtmlInputText:update:modelValue': onHtmlInputTextUpdateModelValue,
+  }
 
   return newRendererListeners
 })
@@ -37,7 +40,7 @@ const rendererListeners = computed(() => {
 
           <template v-for="item in items" :key="item.id">
             <tr>
-              <td>{{ item.type }}</td>
+              <td>{{ item.name }}</td>
               <td>
                 <HtmlRenderer v-bind="{ ...item, ...rendererListeners }"></HtmlRenderer>
               </td>

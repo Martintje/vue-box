@@ -1,19 +1,18 @@
 import type { Ref } from 'vue'
 
+import type { HtmlRendererEmits } from '../components/HtmlRenderer.vue'
 import type { HtmlRendererDataSetType, HtmlRendererDataType, HtmlRendererNumberData, HtmlRendererTextData } from '../types/HtmlRendererDataSetType'
 import type { HtmlRendererDataTypeType } from '../types/HtmlRendererDataTypeType'
-import type { HtmlRendererHtmlInputNumberUpdateModelValueEvent, HtmlRendererHtmlInputTextUpdateModelValueEvent } from '../types/HtmlRendererEvents'
+import type { TypeRendererListeners } from '../types/TypeRendererListeners'
+import type { HtmlRendererMeta } from './useHtmlRendererItems'
 
 export interface UseHtmlRendererHandlersOptions {
   dataSet: Ref<HtmlRendererDataSetType>
 }
 
-export interface UseHtmlRendererHandlersReturnType {
-  onHtmlInputNumberUpdateModelValue: (event: HtmlRendererHtmlInputNumberUpdateModelValueEvent) => void
-  onHtmlInputTextUpdateModelValue: (event: HtmlRendererHtmlInputTextUpdateModelValueEvent) => void
-}
+export type UseHtmlRendererHandlersReturnType<TMeta> = TypeRendererListeners<HtmlRendererEmits<TMeta>>
 
-export function useHtmlRendererHandlers(options: UseHtmlRendererHandlersOptions): UseHtmlRendererHandlersReturnType {
+export function useHtmlRendererHandlers(options: UseHtmlRendererHandlersOptions): UseHtmlRendererHandlersReturnType<HtmlRendererMeta> {
   const { dataSet } = options
 
   function getData<TType extends HtmlRendererDataTypeType, TData = Extract<HtmlRendererDataType, { type: TType }>>(
@@ -33,32 +32,28 @@ export function useHtmlRendererHandlers(options: UseHtmlRendererHandlersOptions)
     dataSet.value = newDataSet
   }
 
-  function onHtmlInputNumberUpdateModelValue(event: HtmlRendererHtmlInputNumberUpdateModelValueEvent): void {
-    const { id, value } = event
-
-    console.log('onHtmlInputNumberUpdateModelValue', { id, value })
-
-    const temporaryId = 'number-data'
-
-    const newData: HtmlRendererNumberData = { type: 'Number', ...getData(temporaryId, 'Number'), value }
-
-    setData(temporaryId, newData)
-  }
-
-  function onHtmlInputTextUpdateModelValue(event: HtmlRendererHtmlInputTextUpdateModelValueEvent): void {
-    const { id, value } = event
-
-    console.log('onHtmlInputTextUpdateModelValue', { id, value })
-
-    const temporaryId = 'text-data'
-
-    const newData: HtmlRendererTextData = { type: 'Text', ...getData(temporaryId, 'Text'), value }
-
-    setData(temporaryId, newData)
-  }
-
   return {
-    onHtmlInputNumberUpdateModelValue,
-    onHtmlInputTextUpdateModelValue,
+    'onHtmlInputNumber:update:modelValue': (...event) => {
+      const [meta, componentId, data] = event
+
+      const [value] = data
+
+      console.log('onHtmlInputNumber:update:modelValue', { meta, componentId, value })
+
+      const newData: HtmlRendererNumberData = { type: 'Number', ...getData(meta, 'Number'), value }
+
+      setData(meta, newData)
+    },
+    'onHtmlInputText:update:modelValue': (...event) => {
+      const [meta, componentId, data] = event
+
+      const [value] = data
+
+      console.log('onHtmlInputText:update:modelValue', { meta, componentId, value })
+
+      const newData: HtmlRendererTextData = { type: 'Text', ...getData(meta, 'Text'), value }
+
+      setData(meta, newData)
+    },
   }
 }

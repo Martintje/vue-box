@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { type InputHTMLAttributes } from 'vue'
 
+import type { ShortEmitsType } from '../types/ShortEmitsType'
+
 export type HtmlInputTextModel = string
 
 export interface HtmlInputTextProperties {
@@ -10,6 +12,12 @@ export interface HtmlInputTextProperties {
 }
 
 defineProps<HtmlInputTextProperties>()
+
+export interface HtmlInputTextEmits {
+  'update:modelValue': [data: HtmlInputTextModel]
+}
+
+defineEmits<ShortEmitsType<HtmlInputTextEmits>>()
 
 const model = defineModel<HtmlInputTextModel>()
 </script>
