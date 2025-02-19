@@ -1,7 +1,12 @@
 import type { Ref } from 'vue'
 
 import type { HtmlRendererEmits } from '../components/HtmlRenderer.vue'
-import type { HtmlRendererDataSetType, HtmlRendererDataType, HtmlRendererNumberData, HtmlRendererTextData } from '../types/HtmlRendererDataSetType'
+import type {
+  HtmlRendererDataSetType,
+  HtmlRendererDataType,
+  HtmlRendererNumberData,
+  HtmlRendererTextData,
+} from '../types/HtmlRendererDataSetType'
 import type { HtmlRendererDataTypeType } from '../types/HtmlRendererDataTypeType'
 import type { TypeRendererListeners } from '../types/TypeRendererListeners'
 import type { HtmlRendererMeta } from './useHtmlRendererItems'
@@ -10,15 +15,19 @@ export interface UseHtmlRendererHandlersOptions {
   dataSet: Ref<HtmlRendererDataSetType>
 }
 
-export type UseHtmlRendererHandlersReturnType<TMeta> = TypeRendererListeners<HtmlRendererEmits<TMeta>>
+export type UseHtmlRendererHandlersReturnType<TMeta> = TypeRendererListeners<
+  HtmlRendererEmits<TMeta>
+>
 
-export function useHtmlRendererHandlers(options: UseHtmlRendererHandlersOptions): UseHtmlRendererHandlersReturnType<HtmlRendererMeta> {
+export function useHtmlRendererHandlers(
+  options: UseHtmlRendererHandlersOptions,
+): UseHtmlRendererHandlersReturnType<HtmlRendererMeta> {
   const { dataSet } = options
 
-  function getData<TType extends HtmlRendererDataTypeType, TData = Extract<HtmlRendererDataType, { type: TType }>>(
-    id: string,
-    type: TType,
-  ): TData | undefined {
+  function getData<
+    TType extends HtmlRendererDataTypeType,
+    TData = Extract<HtmlRendererDataType, { type: TType }>,
+  >(id: string, type: TType): TData | undefined {
     const data = dataSet.value[`${id}`]
 
     if (data?.type !== type) return

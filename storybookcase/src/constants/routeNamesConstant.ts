@@ -1,3 +1,1 @@
-export const routeNamesConstant = [
-  'home'
-] as const;
+export const routeNamesConstant = ['home'] as const

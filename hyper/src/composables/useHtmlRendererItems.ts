@@ -13,7 +13,9 @@ export interface UseHtmlRendererItemsReturnType<TMeta> {
   items: ComputedRef<HtmlRendererProperties<TMeta>[]>
 }
 
-export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseHtmlRendererItemsReturnType<HtmlRendererMeta> {
+export function useHtmlRendererItems(
+  options: UseHtmlRendererItemsOptions,
+): UseHtmlRendererItemsReturnType<HtmlRendererMeta> {
   const { dataSet } = options
 
   const items = computed((): HtmlRendererProperties<HtmlRendererMeta>[] => [
@@ -22,7 +24,10 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
       name: 'HtmlDivision',
       meta: 'text-data',
       componentAttributes: {
-        content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
+        content:
+          dataSet.value['text-data']?.type === 'Text'
+            ? dataSet.value['text-data'].value
+            : undefined,
         isContentHtml: true,
       },
     },
@@ -32,7 +37,10 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
       meta: 'text-data',
       componentAttributes: {
         id: 'HtmlInputText-1',
-        modelValue: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
+        modelValue:
+          dataSet.value['text-data']?.type === 'Text'
+            ? dataSet.value['text-data'].value
+            : undefined,
       },
     },
     {
@@ -41,7 +49,10 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
       meta: 'text-data',
       componentAttributes: {
         id: 'HtmlInputText-2',
-        modelValue: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
+        modelValue:
+          dataSet.value['text-data']?.type === 'Text'
+            ? dataSet.value['text-data'].value
+            : undefined,
       },
     },
     {
@@ -50,7 +61,10 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
       meta: 'number-data',
       componentAttributes: {
         id: 'HtmlInputNumber-2',
-        modelValue: dataSet.value['number-data']?.type === 'Number' ? dataSet.value['number-data'].value : undefined,
+        modelValue:
+          dataSet.value['number-data']?.type === 'Number'
+            ? dataSet.value['number-data'].value
+            : undefined,
       },
     },
     {
@@ -58,7 +72,10 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
       name: 'HtmlLabel',
       meta: 'number-data',
       componentAttributes: {
-        content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
+        content:
+          dataSet.value['text-data']?.type === 'Text'
+            ? dataSet.value['text-data'].value
+            : undefined,
         forId: 'HtmlInputNumber-2',
         isContentHtml: true,
       },
@@ -68,7 +85,10 @@ export function useHtmlRendererItems(options: UseHtmlRendererItemsOptions): UseH
       name: 'HtmlSpan',
       meta: 'text-data',
       componentAttributes: {
-        content: dataSet.value['text-data']?.type === 'Text' ? dataSet.value['text-data'].value : undefined,
+        content:
+          dataSet.value['text-data']?.type === 'Text'
+            ? dataSet.value['text-data'].value
+            : undefined,
         isContentHtml: true,
       },
     },

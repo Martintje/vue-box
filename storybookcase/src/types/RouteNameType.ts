@@ -1,3 +1,3 @@
-import type { routeNamesConstant } from "@/constants/routeNamesConstant";
+import type { routeNamesConstant } from '@/constants/routeNamesConstant'
 
-export type RouteNameType = typeof routeNamesConstant[number];
+export type RouteNameType = (typeof routeNamesConstant)[number]

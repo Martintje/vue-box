@@ -167,7 +167,7 @@ css: {
   "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "ignore",
   "jsxBracketSameLine": true,
-  "printWidth": 150,
+  "printWidth": 100,
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all"

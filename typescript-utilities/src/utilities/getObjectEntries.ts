@@ -13,7 +13,9 @@ import type { ObjectEntriesType } from '../types/ObjectEntriesType'
   const exampleResult = exampleEntries[0] // ["foo", "bar"] | [1, true] | undefined
 ```
  */
-export function getObjectEntries<TObject extends object>(object: TObject): ObjectEntriesType<TObject> {
+export function getObjectEntries<TObject extends object>(
+  object: TObject,
+): ObjectEntriesType<TObject> {
   const entries = (object === null ? [] : Object.entries(object)) as ObjectEntriesType<TObject>
 
   return entries

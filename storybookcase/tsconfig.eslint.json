@@ -22,7 +22,10 @@
     "src/**/*.vue",
     "cypress/**/*",
     "cypress/**/*.vue",
-    "scripts/**/*.mjs"
+    "scripts/**/*.mjs",
+
+    ".storybook/main.ts",
+    ".storybook/preview.ts"
   ],
   "exclude": ["./vite.config.ts.timestamp-**.mjs"]
 }

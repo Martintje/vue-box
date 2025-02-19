@@ -13,7 +13,9 @@ import type { ObjectValuesType } from '../types/ObjectValuesType'
   const exampleResult = exampleValues[0] // true | "bar" | undefined
 ```
  */
-export function getObjectValues<TObject extends object>(object: TObject): ObjectValuesType<TObject> {
+export function getObjectValues<TObject extends object>(
+  object: TObject,
+): ObjectValuesType<TObject> {
   const values = (object === null ? [] : Object.values(object)) as ObjectValuesType<TObject>
 
   return values

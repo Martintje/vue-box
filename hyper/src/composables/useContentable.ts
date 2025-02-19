@@ -14,7 +14,10 @@ export function useContentable(options: UseContentableOptions): UseContentableRe
   const { content, isContentHtml } = options
 
   const sanitizedHtml = computed((): string | undefined => {
-    const newContent = content.value !== undefined && isContentHtml.value ? getHtmlSanitized(content.value) : content.value
+    const newContent =
+      content.value !== undefined && isContentHtml.value
+        ? getHtmlSanitized(content.value)
+        : content.value
 
     return newContent
   })

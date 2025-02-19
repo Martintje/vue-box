@@ -20,7 +20,9 @@ export function getObjectFromEntries<TPartialEntries extends PartialEntriesType>
 ): ObjectFromPartialEntriesType<TPartialEntries> {
   const validEntries = entries.filter(Boolean)
 
-  const partialObject = Object.fromEntries(validEntries as Array<[PropertyKey, unknown]>) as ObjectFromPartialEntriesType<TPartialEntries>
+  const partialObject = Object.fromEntries(
+    validEntries as Array<[PropertyKey, unknown]>,
+  ) as ObjectFromPartialEntriesType<TPartialEntries>
 
   return partialObject
 }

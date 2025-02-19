@@ -6,6 +6,7 @@
     "clean": "rm -rf pnpm-lock.yaml node_modules/ dist/ && pnpm --stream --parallel -r --filter=!vue-box run clean",
     "dev:open": "pnpm --stream --parallel -r --filter=!vue-box run dev:open",
     "install:offline": "pnpm install --offline",
+    "lint:eslint": "pnpm --stream --parallel -r --filter=!vue-box run lint:eslint",
     "package:sort": "npx sort-package-json && pnpm --stream --parallel -r --filter=!vue-box run package:sort",
     "package:update": "npx npm-check-updates && ncu --interactive && (cd typescript-utilities && pnpm run package:update) && (cd hyper-system && pnpm run package:update) && (cd design-system && pnpm run package:update) && (cd developer-documentation && pnpm run package:update) && (cd storybookcase && pnpm run package:update)"
   },
