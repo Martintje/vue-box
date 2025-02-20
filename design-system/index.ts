@@ -1,3 +1,5 @@
-export * from './src/constants/routeNamesConstant'
-export type * from './src/types/RouteNameType'
-export type * from './src/types/RouteType'
+export { default as App } from './src/App.vue'
+export { routeNamesConstant } from './src/constants/routeNamesConstant'
+export type { RouteNameType } from './src/types/RouteNameType'
+export type { RouteType } from './src/types/RouteType'
+export { default as HomeView } from './src/views/HomeView.vue'
